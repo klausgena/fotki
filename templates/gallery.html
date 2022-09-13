@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% block stylesheet %}../styles.css{% endblock %}
+{%block title %}{{ author }} | {{ title | folder_name_to_title }}{% endblock %}
+{%block description %}{{ picture_data['content'] }}{% endblock %}
+{%block author %}{{ author }}{% endblock %}
+{%block content %}
+<section id="featured" class="section is-size-4">
+    <div class="columns">
+        <div class="column is-four-fifths">
+            <h1 class="gallery-title is-size-1">{{ title | folder_name_to_title }}</h1>
+        </div>
+        <div class="column"></div>
+    </div>
+    <div class="columns">
+        <div class="column is-four-fifths">
+            {% if picture_data['pictures'][0] %}
+            {% set orientation = picture_data['pictures'][0][0]['orientation'] %}
+            <a href="{{ picture_data['pictures'][0][0]['name'] | strip_jpg }}.html">
+                {% if orientation == 'landscape' %}
+                <figure class="image is-3by2">
+                    {% elif orientation == 'portrait' %}
+                    <figure class="image is-2by3">
+                        {% else %}
+                        <figure class="image is-1by1">
+                            {% endif %}
+                            <img src="img/{{ picture_data['pictures'][0][0]['name'] }}">
+                        </figure>
+            </a>
+            {% endif %}
+        </div>
+        <div class="column">
+            {% if content %}
+            <p class="subtitle is-size-5">{{ content }}</p>
+            {% endif %}
+        </div>
+    </div>
+</section>
+<section id="gallery" class="section">
+    <div class="columns">
+        <div class="column is-two-thirds">
+            <div class="grid">
+                {% for picture in picture_data['pictures'] %}
+                {% if loop.index != 1 %}
+                {% set orientation = picture[loop.index -1]['orientation'] %}
+                {% if orientation == 'landscape' %}
+                <div class="landscape">
+                {% elif orientation == 'portrait' %}
+                <div class="portrait">
+                {% else %}
+                <div class="square">
+                {% endif %}
+                    <a href="{{ picture[loop.index -1]['name'] | strip_jpg }}.html">
+                        <img src="img/{{ picture[loop.index -1]['name'] }}">
+                    </a>
+                </div>
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+        <div class="column"></div>
+    </div>
+</section>
+<section id="gallery-navigation" class="section">
+    <div class="columns">
+        <div class="column is-two-thirds">
+            <div class="level">
+                <div class="level-item has-text-left">
+                    {% set prevnext = get_previous_and_next(title, folders) %}
+                    {% if prevnext[0] %}
+                    <a href="../{{ prevnext[0] }}/index.html">
+                        <i class="fa fa-arrow-left arrow-left"></i>
+                        {{ prevnext[0] | folder_name_to_title }}</a>
+                    {% endif %}
+                </div>
+                <div class="level-item has-text-right">
+                    {%if prevnext[1] %}
+                    <a href="../{{ prevnext[1] }}/index.html">{{ prevnext[1] | folder_name_to_title }}
+                        <i class="fa fa-arrow-right arrow-right"></i></a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="column"></div>
+    </div>
+</section>
+{% endblock %}

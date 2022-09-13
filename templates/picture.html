@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block stylesheet %}../../styles.css{% endblock %}
+{% block title %}{{ author }} | {{ title }}{% endblock %}
+{% block description %}{{ description }}{% endblock %}
+{% block author %}{{ author }}{% endblock %}
+{% block content %}
+{% set is_text = false %}
+{% if config['description'] %}
+{% set is_text = true %}
+{% endif %}
+<section class="section">
+    <div class="container content">
+        <div class="columns">
+            {% if is_text == true %}
+            <div class="column is-two-thirds">
+            {% else %}
+            <div class="column is-full">
+            {% endif %}
+                {% if config['orientation'] == 'landscape' %}
+                <figure class="image is-3by2">
+                {% elif config['orientation'] == 'portrait' %}
+                <figure class="image is-2by3">
+                {% else %}
+                <figure class="image is-1by1">
+                {% endif %}
+                    <img src="img/{{ picture }}" alt="{{ title }}">
+                </figure>
+            </div>
+            {% if is_text == true %}
+            <div class="column">
+                <p class="subtitle">
+                    {% if config['title'] %}<em>{{ config['title'] }}</em>{% endif %}
+                    {% if config['description'] %} - {{ config['description'] }}{% endif %}
+                </p>
+            </div>
+            {% endif %}
+        </div>
+        <div class="columns">
+            {% if is_text == true %}
+            <div class="column is-two-thirds">
+            {% else %}
+            <div class="column is-full">
+            {% endif %}
+                <div class="level is-mobile">
+                    <div class="level-item has-text-left">
+                        {% if previous is not none %}
+                        <a href="{{ previous | strip_jpg }}.html"><i class="fa fa-arrow-left arrow-left"></i>
+                        </a>
+                        {% endif %}
+                    </div>
+                    <div class="level-item has-text-right">
+                        {% if next is not none %}
+                        <a href="{{ next | strip_jpg }}.html"><i class="fa fa-arrow-right arrow-right"></i></a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% if is_text == true %}
+            <div class="column"></div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% endblock %}

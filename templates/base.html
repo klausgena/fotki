@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="{% block stylesheet %}{% endblock %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@800&family=Work+Sans:wght@400;900&display=swap"
+        rel="stylesheet">
+    <title>{% block title %}{% endblock %}</title>
+    <meta name="description" content="{% block description %}{% endblock %}">
+    <meta name="author" content="{% block author %}{% endblock %}">
+    <script src="https://kit.fontawesome.com/6ecb00250f.js" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+
+            // Check for click events on the navbar burger icon
+            $(".navbar-burger").click(function () {
+
+                // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
+                $(".navbar-burger").toggleClass("is-active");
+                $(".navbar-menu").toggleClass("is-active");
+
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <div id="main" class="container">
+        <section id="navigation" class="section">
+            <nav class="navbar" role="navigation" aria-label="main navigation">
+                <div class="container">
+                    <div class="navbar-brand is-size-3">
+                        <a class="navbar-item" href="../index.html">{{ sitename }}</a>
+                        <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+                            <span aria-hidden="true"></span>
+                            <span aria-hidden="true"></span>
+                            <span aria-hidden="true"></span>
+                        </a>
+                    </div>
+                    <div class="navbar-menu">
+                        <div class="navbar-start">
+                        </div>
+                        <div class="navbar-end">
+                            <a class="navbar-item" href="../index.html">werk</a>
+                            {% for page in pages %}
+                            <a class="navbar-item" href="../{{ page | strip_md }}.html">{{ page | strip_md}}</a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </section>
+
+        {% block content %}{% endblock %}
+
+        <footer class="footer">
+            <div class="container content has-text-centered">
+                <p>{{ footer | safe }}</p>
+            </div>
+        </footer>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block stylesheet %}styles.css{% endblock %}
+{% block title %}{{ title }}{% endblock %}
+{% block description %}{{ description }}{% endblock %}
+{% block author %}{{ author }}{% endblock %}
+{% block content %}
+<section class="section">
+    <div class="container content">
+        <div id="page">
+            {{ content|safe }}
+        </div>
+    </div>
+</section>
+{% endblock %}
